@@ -41,7 +41,8 @@ class AddressBook(UserList):
         for number in self.data[self.counter]['phones']:
             if number:
                 phones.append(number)
-        result = "_" * 50 + "\n" + f"Name: {self.data[self.counter]['name']} \nPhones: {', '.join(phones)} \nBirthday: {birth} \nEmail: {self.data[self.counter]['email']} \nStatus: {self.data[self.counter]['status']} \nNote: {self.data[self.counter]['note']}\n" + "_" * 50
+        result = "_" * 50 + "\n" + \
+            f"Name: {self.data[self.counter]['name']} \nPhones: {', '.join(phones)} \nBirthday: {birth} \nEmail: {self.data[self.counter]['email']} \nStatus: {self.data[self.counter]['status']} \nNote: {self.data[self.counter]['note']}\n" + "_" * 50
         return result
 
     def __iter__(self):
@@ -120,7 +121,7 @@ class AddressBook(UserList):
                         new_contact = new_value.split(' ')
                         new_value = []
                         for number in new_contact:
-                             new_value.append(Phone(number).value)
+                            new_value.append(Phone(number).value)
                     if parameter in account.keys():
                         account[parameter] = new_value
                     else:
@@ -159,20 +160,22 @@ class AddressBook(UserList):
 
     def congratulate(self):
         result = []
-        WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday',
+                    'Thursday', 'Friday', 'Saturday', 'Sunday']
         current_year = dt.now().year
-        congratulate = {'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': []}
+        congratulate = {'Monday': [], 'Tuesday': [],
+                        'Wednesday': [], 'Thursday': [], 'Friday': []}
         for account in self.data:
             if account['birthday']:
                 new_birthday = account['birthday'].replace(year=current_year)
                 birthday_weekday = new_birthday.weekday()
                 if self.__get_current_week()[0] <= new_birthday.date() < self.__get_current_week()[1]:
                     if birthday_weekday < 5:
-                        congratulate[WEEKDAYS[birthday_weekday]].append(account['name'])
+                        congratulate[WEEKDAYS[birthday_weekday]].append(
+                            account['name'])
                     else:
                         congratulate['Monday'].append(account['name'])
         for key, value in congratulate.items():
             if len(value):
                 result.append(f"{key}: {' '.join(value)}")
         return '_' * 50 + '\n' + '\n'.join(result) + '\n' + '_' * 50
-
